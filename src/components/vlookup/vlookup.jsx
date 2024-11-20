@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "../../App.css";
-import logo from "../../assets/logo.png";
 import * as XLSX from "xlsx";
 
 const VlookUp = () => {
@@ -120,12 +119,12 @@ const VlookUp = () => {
             className="border px-6 py-2 rounded-md shadow-lg"
           />
           <label>Upload Primary File</label>
-          <button
+          {/* <button
             onClick={downloadBaseTemplate}
             className="text-red-500 border hover:bg-red-500 hover:text-white rounded-md px-2 py-1 bg-red-100"
           >
             Download Template
-          </button>
+          </button> */}
         </div>
         <div className="flex flex-col items-center gap-4">
           <input
@@ -135,12 +134,12 @@ const VlookUp = () => {
             className="border px-6 py-2 rounded-md shadow-lg"
           />
           <label>Upload Reference File</label>
-          <button
+          {/* <button
             onClick={downloadStandarTemplate}
             className="text-red-500 border hover:bg-red-500 hover:text-white rounded-md px-2 py-1 bg-red-100"
           >
             Download Template
-          </button>
+          </button> */}
         </div>
       </div>
 
