@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import logo from "./assets/logo.png";
+import valid from "./assets/validate.gif";
 import * as XLSX from "xlsx";
 function App() {
   const [baseFile, setBaseFile] = useState([]);
@@ -9,17 +10,22 @@ function App() {
   const [selectedKeysR, setSelectedKeysR] = useState([]);
 
   const handleChangeBase = (event) => {
-    const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
+    const selectedOptions = Array.from(
+      event.target.selectedOptions,
+      (option) => option.value
+    );
     setSelectedKeysB(selectedOptions);
     console.log(selectedOptions); // Log the selected values
   };
-  
+
   const handleChangeRef = (event) => {
-    const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
+    const selectedOptions = Array.from(
+      event.target.selectedOptions,
+      (option) => option.value
+    );
     setSelectedKeysR(selectedOptions);
     console.log(selectedOptions); // Log the selected values
   };
-
 
   const downloadBaseTemplate = () => {
     console.log("");
@@ -45,14 +51,13 @@ function App() {
     }
   };
 
-  
   const handleFileUploadR = (event) => {
     const file = event.target.files[0]; // Get the uploaded file
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
         const data = new Uint8Array(e.target.result); // Read the file as an array buffer
-        const workbook = XLSX.read(data, { type: 'array' }); // Parse the data into a workbook
+        const workbook = XLSX.read(data, { type: "array" }); // Parse the data into a workbook
         const sheetName = workbook.SheetNames[0]; // Get the first sheet's name
         const sheet = workbook.Sheets[sheetName]; // Get the sheet data
         const jsonData = XLSX.utils.sheet_to_json(sheet); // Convert the sheet to JSON
@@ -61,7 +66,9 @@ function App() {
       reader.readAsArrayBuffer(file); // Read the file as an array buffer
     }
   };
-
+  const validateFxn = () => {
+    console.log("validate");
+  };
   return (
     <>
       <div className="bg-green-700 h-20 flex items-center justify-center gap-2">
@@ -100,46 +107,72 @@ function App() {
           </button>
         </div>
       </div>
-     
-    {baseFile.length > 0 && refFile.length > 0 &&  <div className="flex items-center justify-center gap-40 mt-10">
-      <div className="h-[500px] w-[300px] ">
-      <select className="h-full outline-none border shadow-md rounded-md w-full px-4" multiple onChange={handleChangeBase}>
-        {baseFile ? 
-          [...new Set(baseFile.flatMap(rec => Object.keys(rec)))] // Get unique keys across all rec objects
-            .map((key, index) => (
-              <option key={index} value={key}>
-                {key}
-              </option>
-            ))
-          : <option>No Data Available</option>
-        }
-      </select>
-      
-      {/* Display selected keys */}
-      <div>
-        <p>Selected Keys: {selectedKeysB.join(', ')}</p>
-      </div>
-    </div>
-    <div className="h-[500px] w-[300px] ">
-      <select className="h-full outline-none border shadow-md rounded-md w-full px-4" multiple onChange={handleChangeRef}>
-        {refFile ? 
-          [...new Set(refFile.flatMap(rec => Object.keys(rec)))] // Get unique keys across all rec objects
-            .map((key, index) => (
-              <option key={index} value={key}>
-                {key}
-              </option>
-            ))
-          : <option>No Data Available</option>
-        }
-      </select>
-      
-      {/* Display selected keys */}
-      <div>
-        <p>Selected Keys: {selectedKeysR.join(', ')}</p>
-      </div>
-    </div>
-      </div>}
 
+      {baseFile.length > 0 && refFile.length > 0 && (
+        <div className="flex items-center justify-center gap-40 mt-10">
+          <div className="h-[500px] w-[300px] ">
+            <select
+              className="h-full outline-none border shadow-md rounded-md w-full px-4"
+              multiple
+              onChange={handleChangeBase}
+            >
+              {baseFile ? (
+                [...new Set(baseFile.flatMap((rec) => Object.keys(rec)))] // Get unique keys across all rec objects
+                  .map((key, index) => (
+                    <option key={index} value={key}>
+                      {key}
+                    </option>
+                  ))
+              ) : (
+                <option>No Data Available</option>
+              )}
+            </select>
+
+            {/* Display selected keys */}
+            <div>
+              <p>Selected Keys: {selectedKeysB.join(", ")}</p>
+            </div>
+          </div>
+          <div className="h-[500px] w-[300px] ">
+            <select
+              className="h-full outline-none border shadow-md rounded-md w-full px-4"
+              multiple
+              onChange={handleChangeRef}
+            >
+              {refFile ? (
+                [...new Set(refFile.flatMap((rec) => Object.keys(rec)))] // Get unique keys across all rec objects
+                  .map((key, index) => (
+                    <option key={index} value={key}>
+                      {key}
+                    </option>
+                  ))
+              ) : (
+                <option>No Data Available</option>
+              )}
+            </select>
+
+            {/* Display selected keys */}
+            <div>
+              <p>Selected Keys: {selectedKeysR.join(", ")}</p>
+            </div>
+          </div>
+        </div>
+      )}
+        
+       {selectedKeysB.length > 0 && selectedKeysR.length > 0 && <div className="flex justify-center mt-10">
+          <div onClick={validateFxn} className="relative hover:cursor-pointer border rounded-lg">
+            <img
+              className="absolute rounded-md "
+              src={valid}
+              alt=""
+              width={40}
+              height={10}
+            />
+            <div className="w-[200px] h-10  rounded-lg shadow-xl text-red-500 hover:bg-green-500 hover:text-white flex items-center justify-center text-3xl ">
+              <p>Validate</p>
+            </div>
+          </div>
+        </div> }
     </>
   );
 }
