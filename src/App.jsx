@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "./App.css";
 import logo from "./assets/logo.png";
-import valid from "./assets/validate.gif";
 import * as XLSX from "xlsx";
 function App() {
   const [baseFile, setBaseFile] = useState([]);
@@ -106,9 +105,7 @@ function App() {
     });
 
     setResultData(combinedList); // Set the combined data in state
-   if(resultData.length > 0){
-    exportToExcel();
-   }
+
   };
 
 
@@ -142,7 +139,7 @@ function App() {
             onChange={handleFileUploadR}
             className="border px-6 py-2 rounded-md shadow-lg"
           />
-          <label>Upload Primary File</label>
+          <label>Upload Reference File</label>
           <button
             onClick={downloadStandarTemplate}
             className="text-red-500 border hover:bg-red-500 hover:text-white rounded-md px-2 py-1 bg-red-100"
@@ -204,18 +201,17 @@ function App() {
       )}
         
        {selectedKeysB.length > 0 && selectedKeysR.length > 0 && <div className="flex justify-center mt-10">
-          <div onClick={validateFxn} className="relative hover:cursor-pointer border rounded-lg">
-            <img
-              className="absolute rounded-md "
-              src={valid}
-              alt=""
-              width={40}
-              height={10}
-            />
-            <div className="w-[200px] h-10  rounded-lg shadow-xl text-red-500 hover:bg-green-500 hover:text-white flex items-center justify-center text-3xl ">
-              <p>Validate</p>
+         {resultData.length > 0 ? <div onClick={exportToExcel} className=" hover:cursor-pointer border rounded-lg ">
+          
+            <div className="w-[160px] h-10 rounded-lg shadow-xl hover:text-white hover:bg-red-500 text-red-500 flex items-center justify-center text-xl ">
+              <p>Download</p>
             </div>
-          </div>
+          </div> : <div onClick={validateFxn} className=" hover:cursor-pointer border rounded-lg flex items-center">
+            
+            <div className="w-[160px] h-10  rounded-lg shadow-xl text-green-500 hover:bg-green-500 hover:text-white flex items-center justify-center text-xl ">
+              <p>Process</p>
+            </div>
+          </div> }
         </div> }
     </>
   );
