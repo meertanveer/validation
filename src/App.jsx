@@ -8,6 +8,7 @@ function App() {
   const [refFile, setRefFile] = useState([]);
   const [selectedKeysB, setSelectedKeysB] = useState([]);
   const [selectedKeysR, setSelectedKeysR] = useState([]);
+  const [resultData, setResultData] = useState([]);
 
   const handleChangeBase = (event) => {
     const selectedOptions = Array.from(
@@ -66,9 +67,52 @@ function App() {
       reader.readAsArrayBuffer(file); // Read the file as an array buffer
     }
   };
+
+  
+    // Function to export the resultData to an Excel file
+    const exportToExcel = () => {
+      // Convert the resultData array into a worksheet
+      const ws = XLSX.utils.json_to_sheet(resultData);
+      console.log('rd', resultData)
+      // Create a new workbook and append the worksheet to it
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Result Data');
+      
+      // Write the Excel file to the browser
+      XLSX.writeFile(wb, 'resultData.xlsx');
+      window.location.reload()
+    };
+
+  
   const validateFxn = () => {
-    console.log("validate");
+    const combinedList = baseFile.map((rec1) => {
+      const matchedRecord = refFile.find(
+        (rec2) => rec2[selectedKeysR[0]] === rec1[selectedKeysB[0]] // Assuming first selected key is the match
+      );
+
+      if (matchedRecord) {
+        let combinedRecord = { ...rec1 }; // Start with data from Excel1
+        // Add selected keys from Excel2
+        selectedKeysR.forEach((key) => {
+          if (matchedRecord[key]) {
+            combinedRecord[key] = matchedRecord[key]; // Add matching data
+          }
+        });
+
+        return combinedRecord;
+      } else {
+        return { ...rec1, status: 'Not Found' }; // Mark as 'Not Found' if no match
+      }
+    });
+
+    setResultData(combinedList); // Set the combined data in state
+   if(resultData.length > 0){
+    exportToExcel();
+   }
   };
+
+
+
   return (
     <>
       <div className="bg-green-700 h-20 flex items-center justify-center gap-2">
