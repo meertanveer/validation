@@ -7,12 +7,14 @@ import { useState } from "react";
 import RemoveDuplicate from "./components/removeDuplicate/removeDuplicate";
 import RemoveDuplicateRow from "./components/removeDuplicateRow/removeDuplicateRow";
 import Footer from "./components/footer/footer";
+import MultiSheetsVlookup from "./components/multiSheetsVlookup/multiSheetsVlookup";
 function App() {
   const toolsList = [
     "Perform VlookUp",
     "Remove Records by VlookUp",
     "Remove Duplicate based on selected Column",
     "Remove Entire Row Duplicates",
+    "Multiple Sheets Vlookup"
   ];
   const [tools, setTools] = useState("Perform VlookUp");
   const [active, setActive] = useState(sessionStorage.getItem("active"));
@@ -59,6 +61,8 @@ function App() {
         <RemoveDuplicateRow />
       ) : tools === "Remove Duplicate based on selected Column" ? (
         <RemoveDuplicate />
+      ) : tools === "Multiple Sheets Vlookup" ? (
+        <MultiSheetsVlookup />
       ) : (
         <div className="flex items-center justify-center text-red-500 mt-10">
           <p>Oops... Tool Under Development</p>
