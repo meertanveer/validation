@@ -19,9 +19,9 @@ function App() {
 
   if (!active) {
     Swal.fire({
-      title: "Tanveer Hussain Mir",
-      text: "😊",
-      icon: "warning",
+      title: "A person’s worth is measured by the good; they do for others",
+      text: "Imam Ali Ibn-Abi-Talib (as)😊",
+      icon: "info",
       showCancelButton: false,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
@@ -44,7 +44,7 @@ function App() {
         <label className="text-green-600">Select Tool : </label>
         <select
           onChange={(e) => setTools(e.target.value)}
-          className="border outline-none shadow-lg px-4 py-1 bg-green-700 text-white rounded-md w-[400px]"
+          className="border outline-none shadow-lg px-4 py-1 bg-green-700 text-white rounded-md w-[200px] md:w-[400px]"
         >
           {toolsList.map((t, index) => {
             return <option key={index}>{t}</option>;

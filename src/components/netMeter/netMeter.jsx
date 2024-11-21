@@ -90,7 +90,7 @@ const NetMeter = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center gap-10 mt-10">
+      <div className="flex flex-col md:flex-row items-center justify-center gap-10 mt-10">
         <div className="flex flex-col items-center gap-4">
           <input
             type="file"
@@ -112,7 +112,7 @@ const NetMeter = () => {
       </div>
 
       {baseFile.length > 0 && refFile.length > 0 && (
-        <div className="flex items-center justify-center gap-40 mt-10">
+        <div className="flex flex-col md:flex-row  items-center justify-center gap-40 mt-10 mb-20 md:mb-0">
           <div className="h-[500px] w-[300px]">
             <select
               className="h-full outline-none border shadow-md rounded-md w-full px-4"
@@ -164,7 +164,7 @@ const NetMeter = () => {
           ) : (
             <div
               onClick={validateFxn}
-              className="hover:cursor-pointer border rounded-lg flex items-center"
+              className="hover:cursor-pointer border rounded-lg flex items-center mb-10 md:mb-0"
             >
               <div className="w-[160px] h-10 rounded-lg shadow-xl text-green-500 hover:bg-green-500 hover:text-white flex items-center justify-center text-xl">
                 <p>Remove Records</p>

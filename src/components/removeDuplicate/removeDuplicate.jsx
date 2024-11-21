@@ -129,7 +129,7 @@ const RemoveDuplicate = () => {
           ) : (
             <div
               onClick={handleRemoveDuplicates}
-              className="hover:cursor-pointer border rounded-lg flex items-center"
+              className="hover:cursor-pointer border rounded-lg flex items-center mb-10 md:mb-10"
             >
               <div className="w-[260px] h-10 rounded-lg shadow-xl text-green-500 hover:bg-green-500 hover:text-white flex items-center justify-center text-xl">
                 <p>Remove Duplicates</p>
