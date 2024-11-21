@@ -2,6 +2,8 @@ import { useState } from "react";
 import "../../App.css";
 import * as XLSX from "xlsx";
 import Swal from "sweetalert2";
+import load from '../../assets/validate.gif'
+import stat from '../../assets/staticprocess.png'
 
 const NetMeter = () => {
   const [baseFile, setBaseFile] = useState([]);
@@ -9,6 +11,8 @@ const NetMeter = () => {
   const [selectedKeysB, setSelectedKeysB] = useState([]);
   const [selectedKeysR, setSelectedKeysR] = useState([]);
   const [resultData, setResultData] = useState([]);
+  const [loadingB, setLoadingB] = useState(false);
+  const [loadingR, setLoadingR] = useState(false);
 
   const handleChangeBase = (event) => {
     const selectedOptions = Array.from(
@@ -27,6 +31,7 @@ const NetMeter = () => {
   };
 
   const handleFileUploadB = (event) => {
+    setLoadingB(true)
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -37,12 +42,14 @@ const NetMeter = () => {
         const sheet = workbook.Sheets[sheetName];
         const jsonData = XLSX.utils.sheet_to_json(sheet);
         setBaseFile(jsonData);
+        setLoadingB(false)
       };
       reader.readAsArrayBuffer(file);
     }
   };
 
   const handleFileUploadR = (event) => {
+    setLoadingR(true)
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -53,6 +60,7 @@ const NetMeter = () => {
         const sheet = workbook.Sheets[sheetName];
         const jsonData = XLSX.utils.sheet_to_json(sheet);
         setRefFile(jsonData);
+        setLoadingR(false)
       };
       reader.readAsArrayBuffer(file);
     }
@@ -98,7 +106,16 @@ const NetMeter = () => {
             onChange={handleFileUploadB}
             className="border px-6 py-2 rounded-md shadow-lg"
           />
-          <label>Upload Base File</label>
+           <div className="flex items-center gap-4">
+            <label>Upload Base File </label>
+            <div>
+              {loadingB ? (
+                <img src={load} alt="" width={30} height={30} />
+              ) : (
+                <img src={stat} alt="" width={30} height={30} />
+              )}
+            </div>
+          </div>
         </div>
         <div className="flex flex-col items-center gap-4">
           <input
@@ -107,7 +124,16 @@ const NetMeter = () => {
             onChange={handleFileUploadR}
             className="border px-6 py-2 rounded-md shadow-lg"
           />
-          <label>Upload Reference File</label>
+          <div className="flex items-center gap-4">
+            <label>Upload Reference File</label>
+            <div>
+              {loadingR ? (
+                <img src={load} alt="" width={30} height={30} />
+              ) : (
+                <img src={stat} alt="" width={30} height={30} />
+              )}
+            </div>
+          </div>
         </div>
       </div>
 

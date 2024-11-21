@@ -2,12 +2,14 @@ import { useState } from "react";
 import "../../App.css";
 import * as XLSX from "xlsx";
 import Swal from "sweetalert2";
+import load from '../../assets/validate.gif'
+import stat from '../../assets/staticprocess.png'
 
 const RemoveDuplicate = () => {
   const [baseFile, setBaseFile] = useState([]);
   const [selectedKeysB, setSelectedKeysB] = useState([]);
   const [resultData, setResultData] = useState([]);
-
+  const [loadingB, setLoadingB] = useState(false);
   // Handle changes in the dropdown for column selection
   const handleChangeBase = (event) => {
     const selectedOptions = Array.from(
@@ -19,6 +21,7 @@ const RemoveDuplicate = () => {
 
   // Handle file upload and convert the Excel data to JSON
   const handleFileUploadB = (event) => {
+    setLoadingB(true)
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -29,6 +32,7 @@ const RemoveDuplicate = () => {
         const sheet = workbook.Sheets[sheetName];
         const jsonData = XLSX.utils.sheet_to_json(sheet);
         setBaseFile(jsonData);
+        setLoadingB(false)
       };
       reader.readAsArrayBuffer(file);
     }
@@ -84,7 +88,10 @@ const RemoveDuplicate = () => {
             onChange={handleFileUploadB}
             className="border px-6 py-2 rounded-md shadow-lg"
           />
-          <label>Upload File</label>
+           <div className="flex items-center gap-4">
+          <label>Upload File </label>
+          <div>{loadingB ? <img src={load} alt='' width={30} height={30} /> : <img src={stat} alt='' width={30} height={30} /> }</div>
+          </div>
         </div>
       </div>
 
