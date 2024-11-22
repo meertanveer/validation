@@ -4,7 +4,7 @@ const VideoLoop = () => {
   return (
     <div className="flex items-center justify-center">
       <video
-        className="w-[80vw] h-[80vh] object-cover"
+        className="w-[50vw] h-[50vh] object-cover"
         src={video}
         loop
         autoPlay

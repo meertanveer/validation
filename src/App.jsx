@@ -20,7 +20,7 @@ function App() {
     "Multiple Sheets Vlookup"
   ];
   const [tools, setTools] = useState("Perform VlookUp");
-  const [active, setActive] = useState(sessionStorage.getItem("active"));
+  const [active, setActive] = useState(localStorage.getItem("active"));
   const [isIdle, setIsIdle] = useState(false);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ function App() {
     const handleActivity = () => {
       setIsIdle(false);
       clearTimeout(timer);
-      timer = setTimeout(() => setIsIdle(true), 5000); // 10 seconds of inactivity
+      timer = setTimeout(() => setIsIdle(true), 20000); // 10 seconds of inactivity
     };
 
     window.addEventListener('mousemove', handleActivity);
@@ -56,7 +56,7 @@ function App() {
       confirmButtonText: "Enter",
     }).then((result) => {
       if (result.isConfirmed) {
-        sessionStorage.setItem("active", true);
+        localStorage.setItem("active", true);
       }
     });
   }

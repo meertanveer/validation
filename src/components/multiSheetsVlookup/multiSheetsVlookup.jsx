@@ -155,13 +155,13 @@ const MultiSheetsVlookup = () => {
           </div>
       </div>
 
-      <div className="flex justify-center gap-10">
+      <div className="flex justify-center gap-10 overflow-x-scroll">
         {/* List all sheets for selection */}
         {sheetNames.map((sheetName) => (
           <div key={sheetName} className="flex flex-col items-center">
             <h4>{sheetName}</h4>
             <button
-              className="border px-4 bg-green-500 text-white  py-2 rounded-md mb-2"
+              className={`border px-4 ${selectedSheets.includes(sheetName) ? 'bg-red-500' : 'bg-green-500'}  text-white  py-2 rounded-md mb-2`}
               onClick={() => handleSheetSelection(sheetName)}
               disabled={selectedSheets.length >= 2 || selectedSheets.includes(sheetName)}
             >
