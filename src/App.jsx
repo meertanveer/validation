@@ -3,11 +3,14 @@ import VlookUp from "./components/vlookup/vlookup";
 import logo from "./assets/logo.png";
 import NetMeter from "./components/netMeter/netMeter";
 import Swal from "sweetalert2";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RemoveDuplicate from "./components/removeDuplicate/removeDuplicate";
 import RemoveDuplicateRow from "./components/removeDuplicateRow/removeDuplicateRow";
 import Footer from "./components/footer/footer";
 import MultiSheetsVlookup from "./components/multiSheetsVlookup/multiSheetsVlookup";
+import MyIpAddress from "./components/ipAddress/ipAddress";
+import InternetSpeed from "./components/internetSpeed/internetSpeed";
+import VideoLoop from "./components/screenSaver/screenSaver";
 function App() {
   const toolsList = [
     "Perform VlookUp",
@@ -18,6 +21,29 @@ function App() {
   ];
   const [tools, setTools] = useState("Perform VlookUp");
   const [active, setActive] = useState(sessionStorage.getItem("active"));
+  const [isIdle, setIsIdle] = useState(false);
+
+  useEffect(() => {
+    let timer;
+
+    const handleActivity = () => {
+      setIsIdle(false);
+      clearTimeout(timer);
+      timer = setTimeout(() => setIsIdle(true), 5000); // 10 seconds of inactivity
+    };
+
+    window.addEventListener('mousemove', handleActivity);
+    window.addEventListener('keydown', handleActivity);
+
+    // Start idle timer on mount
+    handleActivity();
+
+    return () => {
+      window.removeEventListener('mousemove', handleActivity);
+      window.removeEventListener('keydown', handleActivity);
+      clearTimeout(timer);
+    };
+  }, []);
 
   if (!active) {
     Swal.fire({
@@ -35,13 +61,27 @@ function App() {
     });
   }
 
+
+  const cookiesObject = {};
+document.cookie.split(';').forEach(cookie => {
+  const [name, value] = cookie.trim().split('=');
+  cookiesObject[name] = value;
+});
+const length = Object.keys(cookiesObject)?.length;
+  
   return (
-    <>
-      <div className="bg-green-700 h-20 flex items-center justify-center gap-2">
+    <div className="relative">
+     {isIdle ? <div className="absolute bg-black/60 w-[100vw] h-full flex items-center justify-center "><VideoLoop /></div> : ''}
+      <div className="bg-green-700 h-20 flex items-center justify-center gap-2 ">
+     
         <img src={logo} alt="" width={40} height={40} />
         <span className="text-3xl text-white ">Excel Pro</span>
       </div>
      <div className="min-h-screen">
+    <div className="flex justify-center items-center gap-4"><InternetSpeed /> <MyIpAddress /> <div className="text-green-500 font-bold"> Cookies: {length ? length-1 : '0'}</div></div>
+     
+     
+     
      <div className="flex justify-center items-center gap-6 mt-10 ">
         <label className="text-green-600">Select Tool : </label>
         <select
@@ -70,7 +110,7 @@ function App() {
       )}
      </div>
       <Footer />
-    </>
+    </div>
   );
 }
 
